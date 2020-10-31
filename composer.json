@@ -1,0 +1,12 @@
+{
+    "name": "paulojp-dev/sql-migrator",
+    "description": "SQL Migrator",
+    "type": "library",
+    "authors": [
+        {
+            "name": "João Paulo Ferreira",
+            "email": "paulojp.dev@gmail.com"
+        }
+    ],
+    "require": {}
+}
