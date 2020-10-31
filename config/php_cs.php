@@ -80,7 +80,7 @@ return PhpCsFixer\Config::create()
         'no_whitespace_before_comma_in_array' => true,
         'no_whitespace_in_blank_line' => true,
         'normalize_index_brace' => true,
-        //        'nullable_type_declaration_for_default_null_value' => true, // Ativar quando estiver utilizando o PHP 7.4
+        'nullable_type_declaration_for_default_null_value' => true,
         'object_operator_without_whitespace' => true,
         'phpdoc_add_missing_param_annotation' => true,
         'phpdoc_align' => [

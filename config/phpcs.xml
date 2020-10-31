@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<ruleset name="Custom Standard" namespace="MyStandard">
+    <rule ref="Squiz.WhiteSpace.SuperfluousWhitespace" />
+
+    <rule ref="PSR12">
+        <exclude name="PSR12.Properties.ConstantVisibility.NotFound"/>
+    </rule>
+</ruleset>
