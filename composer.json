@@ -12,7 +12,8 @@
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.16",
         "squizlabs/php_codesniffer": "*",
-        "phpunit/phpunit": "^9"
+        "phpunit/phpunit": "^9",
+        "larapack/dd": "^1.1"
     },
     "autoload": {
         "psr-4": {
