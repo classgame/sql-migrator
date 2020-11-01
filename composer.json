@@ -17,8 +17,12 @@
     },
     "autoload": {
         "psr-4": {
-            "SqlMigrator\\": "src/"
-        }
+            "SqlMigrator\\": "src/",
+            "Core\\": "core/"
+        },
+        "files": [
+            "core/helper.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
