@@ -20,7 +20,7 @@ class ScriptPreparerTest extends TestCase
     public function testShouldReturnPreparedScriptWithStatements(): void
     {
         $content = "
-        insert into user values ('Usuário 4');insert into user values ('Usuário 4');insert into user 
+        insert into user values ('Usuário 4');insert into user values ('Usuário 1');insert into user 
         
         values ('Usuário 4');
         ";

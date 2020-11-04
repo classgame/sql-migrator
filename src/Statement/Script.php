@@ -9,6 +9,7 @@ class Script
     private string $path;
     private int $numberOfLines;
     private array $statements;
+    private Content $content;
 
     public function __construct(string $path)
     {
@@ -18,6 +19,7 @@ class Script
 
         $this->path = $path;
         $this->numberOfLines = (int)count(file($path));
+        $this->content = new Content(file_get_contents($path));
     }
 
     public function getPath(): string
@@ -48,8 +50,11 @@ class Script
 
     public function getContent(): string
     {
-        $content = file_get_contents($this->path);
+        return $this->content;
+    }
 
-
+    public function getCommands(): array
+    {
+        return $this->content->getCommands();
     }
 }
