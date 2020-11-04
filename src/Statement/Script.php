@@ -32,6 +32,9 @@ class Script
         return $this->numberOfLines;
     }
 
+    /**
+     * @return Statement[]
+     */
     public function getStatements(): array
     {
         return $this->statements;
