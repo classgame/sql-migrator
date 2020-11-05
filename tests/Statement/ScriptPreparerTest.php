@@ -3,8 +3,6 @@
 namespace Tests\Statement;
 
 use PHPUnit\Framework\TestCase;
-use SqlMigrator\DB\ConnectionCreator;
-use SqlMigrator\DB\SQLExecutor;
 use SqlMigrator\Statement\ScriptPreparer;
 use SqlMigrator\Statement\Statement;
 
@@ -30,16 +28,6 @@ class ScriptPreparerTest extends TestCase
         $filePath = $this->createFile($content);
         $preparer = new ScriptPreparer();
         $script = $preparer->prepare($filePath);
-
-
-
-        $creator = new ConnectionCreator();
-        $executor = new SQLExecutor($creator);
-        $executor->exec($script);
-
-
-
-
 
         $this->assertNotNull($script);
 
