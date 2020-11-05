@@ -2,7 +2,9 @@
 
 namespace SqlMigrator\DB;
 
+use SqlMigrator\Exception\StatementExecutionException;
 use SqlMigrator\Statement\Script;
+use SqlMigrator\Statement\Statement;
 
 class SQLExecutor
 {
@@ -15,21 +17,36 @@ class SQLExecutor
 
     public function exec(Script $script): void
     {
+        $path = $script->getPath();
+
         foreach ($script->getStatements() as $statement) {
-            $sql = $statement->getCommand();
-            $this->execSql($sql);
+            $this->execStatement($statement, $path);
         }
     }
 
-    public function execSql(string $sql): void
-    {
-        $stmt = $this->conn->prepare($sql);
-//        $success = $stmt->execute();
+    public function execStatement(
+        Statement $statement,
+        string $scriptPath
+    ): void {
+        $sql = $statement->getCommand();
+        $prepare = $this->conn->prepare($sql);
 
-        dd(mysqlerr($this->conn));
+        if (!$prepare) {
+            throw new StatementExecutionException(
+                $statement,
+                $scriptPath,
+                mysqli_error($this->conn)
+            );
+        }
+
+        $success = $prepare->execute();
 
         if (!$success) {
-            dd('fail');
+            throw new StatementExecutionException(
+                $statement,
+                $scriptPath,
+                mysqli_error($this->conn)
+            );
         }
     }
 }
