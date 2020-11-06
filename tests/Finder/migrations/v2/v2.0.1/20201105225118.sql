@@ -1,0 +1,1 @@
+insert into user (name) values (''Usuário 1'');
