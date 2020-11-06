@@ -3,6 +3,7 @@
 namespace Tests\Finder;
 
 use PHPUnit\Framework\TestCase;
+use SqlMigrator\Finder\Directory;
 use SqlMigrator\Finder\Finder;
 
 class FinderTest extends TestCase
@@ -14,6 +15,13 @@ class FinderTest extends TestCase
         $finder = new Finder();
         $migrations = $finder->find($migrationPath);
 
+        $this->assertMigrationDir($migrationPath, $migrations);
+    }
+
+    private function assertMigrationDir(
+        string $migrationPath,
+        Directory $migrations
+    ): void {
         $this->assertEquals('migrations', $migrations->getDirName());
         $this->assertEquals($migrationPath, $migrations->getPath());
         $this->assertEquals(0, $migrations->getFilesCount());
@@ -22,29 +30,136 @@ class FinderTest extends TestCase
 
         [$v1, $v2] = $migrations->getSubDirectories();
 
-        $v1Path = $migrationPath . '/v1';
-        $v2Path = $migrationPath . '/v2';
-
-        $this->assertEquals('v1', $v1->getDirName());
-        $this->assertEquals($v1Path, $v1->getPath());
-        $this->assertEquals(3, $v1->getSubDirCount());
-        $this->assertEquals(0, $v1->getFilesCount());
-        $this->assertEmpty($v1->getFiles());
+        $this->assertV1($v1, $migrationPath);
+        $this->assertV2($v2, $migrationPath);
 
         [$v1_0, $v1_0_1, $v1_1] = $v1->getSubDirectories();
 
-        $v1_0Path = $v1Path . '/v1.0';
+        $this->assertV10($v1_0, $migrationPath);
+        $this->assertV101($v1_0_1, $migrationPath);
+        $this->assertV11($v1_1, $migrationPath);
 
-        $this->assertEquals('v1.0', $v1_0->getDirName());
-        $this->assertEquals($v1_0Path, $v1_0->getPath());
-        $this->assertEquals(0, $v1_0->getSubDirCount());
-        $this->assertEquals(3, $v1_0->getFilesCount());
-        $this->assertEmpty($v1_0->getSubDirectories());
+        [$v2_0, $v2_0_1] = $v2->getSubDirectories();
 
-        $this->assertEquals('v2', $v2->getDirName());
-        $this->assertEquals($v2Path, $v2->getPath());
-        $this->assertEquals(2, $v2->getSubDirCount());
-        $this->assertEquals(0, $v2->getFilesCount());
-        $this->assertEmpty($v2->getFiles());
+        $this->assertV20($v2_0, $migrationPath);
+        $this->assertV201($v2_0_1, $migrationPath);
+    }
+
+    private function assertV1(Directory $dir, string $migrationPath): void
+    {
+        $data = [
+            'expectedDirName' => 'v1',
+            'expectedPath' => $migrationPath . '/v1',
+            'expectedCountDirs' => 3,
+            'expectedCountFiles' => 0,
+            'emptySubDirs' => false,
+            'emptyFiles' => true,
+        ];
+
+        $this->assertDir($dir, $data);
+    }
+
+    private function assertV2(Directory $dir, string $migrationPath): void
+    {
+        $data = [
+            'expectedDirName' => 'v2',
+            'expectedPath' => $migrationPath . '/v2',
+            'expectedCountDirs' => 2,
+            'expectedCountFiles' => 0,
+            'emptySubDirs' => false,
+            'emptyFiles' => true,
+        ];
+
+        $this->assertDir($dir, $data);
+    }
+
+    private function assertV10(Directory $dir, string $migrationPath): void
+    {
+        $data = [
+            'expectedDirName' => 'v1.0',
+            'expectedPath' => $migrationPath . '/v1/v1.0',
+            'expectedCountDirs' => 0,
+            'expectedCountFiles' => 3,
+            'emptySubDirs' => true,
+            'emptyFiles' => false,
+        ];
+
+        $this->assertDir($dir, $data);
+    }
+
+    private function assertV101(Directory $dir, string $migrationPath): void
+    {
+        $data = [
+            'expectedDirName' => 'v1.0.1',
+            'expectedPath' => $migrationPath . '/v1/v1.0.1',
+            'expectedCountDirs' => 0,
+            'expectedCountFiles' => 1,
+            'emptySubDirs' => true,
+            'emptyFiles' => false,
+        ];
+
+        $this->assertDir($dir, $data);
+    }
+
+    private function assertV11(Directory $dir, string $migrationPath): void
+    {
+        $data = [
+            'expectedDirName' => 'v1.1',
+            'expectedPath' => $migrationPath . '/v1/v1.1',
+            'expectedCountDirs' => 0,
+            'expectedCountFiles' => 2,
+            'emptySubDirs' => true,
+            'emptyFiles' => false,
+        ];
+
+        $this->assertDir($dir, $data);
+    }
+
+    private function assertV20(Directory $dir, string $migrationPath): void
+    {
+        $data = [
+            'expectedDirName' => 'v2.0',
+            'expectedPath' => $migrationPath . '/v2/v2.0',
+            'expectedCountDirs' => 0,
+            'expectedCountFiles' => 1,
+            'emptySubDirs' => true,
+            'emptyFiles' => false,
+        ];
+
+        $this->assertDir($dir, $data);
+    }
+
+    private function assertV201(Directory $dir, string $migrationPath): void
+    {
+        $data = [
+            'expectedDirName' => 'v2.0.1',
+            'expectedPath' => $migrationPath . '/v2/v2.0.1',
+            'expectedCountDirs' => 0,
+            'expectedCountFiles' => 2,
+            'emptySubDirs' => true,
+            'emptyFiles' => false,
+        ];
+
+        $this->assertDir($dir, $data);
+    }
+
+    private function assertDir(Directory $dir, array $data): void
+    {
+        $this->assertEquals($data['expectedDirName'], $dir->getDirName());
+        $this->assertEquals($data['expectedPath'], $dir->getPath());
+        $this->assertEquals($data['expectedCountDirs'], $dir->getSubDirCount());
+        $this->assertEquals($data['expectedCountFiles'], $dir->getFilesCount());
+
+        if ($data['emptyFiles']) {
+            $this->assertEmpty($dir->getFiles());
+        } else {
+            $this->assertNotEmpty($dir->getFiles());
+        }
+
+        if ($data['emptySubDirs']) {
+            $this->assertEmpty($dir->getSubDirectories());
+        } else {
+            $this->assertNotEmpty($dir->getSubDirectories());
+        }
     }
 }
