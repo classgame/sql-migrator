@@ -5,6 +5,7 @@ namespace Tests\DB;
 use PHPUnit\Framework\TestCase;
 use SqlMigrator\DB\ConnectionCreator;
 use SqlMigrator\DB\SQLExecutor;
+use SqlMigrator\Exception\StatementExecutionException;
 use SqlMigrator\Statement\ScriptPreparer;
 use Tests\CreateFile;
 
@@ -22,7 +23,7 @@ class SQLExecutorTest extends TestCase
         $this->conn->begin_transaction();
     }
 
-    public function test(): void
+    public function testShouldExecuteScriptStatements(): void
     {
         $name1 = 'Usuário 100';
         $name2 = 'Usuário 200';
@@ -51,6 +52,47 @@ class SQLExecutorTest extends TestCase
 
         $this->assertNotNull($user1);
         $this->assertNotNull($user2);
+    }
+
+    public function testShouldThrowsExceptionWhenInvalidSqlStatement(): void
+    {
+        $name1 = 'Usuário 100';
+        $name2 = 'Usuário 200';
+
+        $content = "
+            insert into user (id, name) values (null, '$name1');
+            invalid sql;
+            insert into user (id, name) values (null, '$name2');
+        ";
+
+        $filePath = $this->createFile($content);
+        $preparer = new ScriptPreparer();
+        $script = $preparer->prepare($filePath);
+        $creator = new ConnectionCreator();
+        $executor = new SQLExecutor($creator);
+
+        $msg = '{"error":"You have an error in your SQL syntax; ' .
+            'check the manual that corresponds to your MySQL server ' .
+            'version for the right syntax to use near \'invalid sql\' at' .
+            ' line 1","script":"' . $filePath . '","line":3,' .
+            '"position":13,"command":"invalid sql;"}';
+
+        $this->expectException(StatementExecutionException::class);
+        $this->expectExceptionMessage($msg);
+
+        $executor->exec($script);
+
+        $this->assertNotNull($script);
+
+        $statements = $script->getStatements();
+
+        $this->assertCount(2, $statements);
+
+        $user1 = $this->getUser($name1);
+        $user2 = $this->getUser($name2);
+
+        $this->assertNotNull($user1);
+        $this->assertNull($user2);
     }
 
     private function getUser(string $name): \stdClass
