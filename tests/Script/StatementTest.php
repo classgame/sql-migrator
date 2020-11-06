@@ -1,9 +1,9 @@
 <?php
 
-namespace Tests\Statement;
+namespace Tests\Script;
 
 use PHPUnit\Framework\TestCase;
-use SqlMigrator\Statement\Statement;
+use SqlMigrator\Script\Statement;
 
 class StatementTest extends TestCase
 {

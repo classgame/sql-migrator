@@ -3,8 +3,8 @@
 namespace SqlMigrator\DB;
 
 use SqlMigrator\Exception\StatementExecutionException;
-use SqlMigrator\Statement\Script;
-use SqlMigrator\Statement\Statement;
+use SqlMigrator\Script\Script;
+use SqlMigrator\Script\Statement;
 
 class SQLExecutor
 {

@@ -2,7 +2,7 @@
 
 namespace SqlMigrator\Exception;
 
-use SqlMigrator\Statement\Statement;
+use SqlMigrator\Script\Statement;
 use Throwable;
 
 class StatementExecutionException extends \Exception

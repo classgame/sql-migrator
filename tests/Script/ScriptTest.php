@@ -1,11 +1,11 @@
 <?php
 
-namespace Tests\Statement;
+namespace Tests\Script;
 
 use PHPUnit\Framework\TestCase;
 use SqlMigrator\Exception\InvalidFileException;
-use SqlMigrator\Statement\Script;
-use SqlMigrator\Statement\ScriptPreparer;
+use SqlMigrator\Script\Script;
+use SqlMigrator\Script\ScriptPreparer;
 
 class ScriptTest extends TestCase
 {

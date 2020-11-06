@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests\Statement;
+namespace Tests\Script;
 
 use PHPUnit\Framework\TestCase;
-use SqlMigrator\Statement\ScriptPreparer;
-use SqlMigrator\Statement\Statement;
+use SqlMigrator\Script\ScriptPreparer;
+use SqlMigrator\Script\Statement;
 
 class ScriptPreparerTest extends TestCase
 {

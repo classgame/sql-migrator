@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 use SqlMigrator\DB\ConnectionCreator;
 use SqlMigrator\DB\SQLExecutor;
 use SqlMigrator\Exception\StatementExecutionException;
-use SqlMigrator\Statement\ScriptPreparer;
+use SqlMigrator\Script\ScriptPreparer;
 use Tests\CreateFile;
 
 class SQLExecutorTest extends TestCase

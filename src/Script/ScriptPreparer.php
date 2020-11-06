@@ -1,6 +1,6 @@
 <?php
 
-namespace SqlMigrator\Statement;
+namespace SqlMigrator\Script;
 
 use Core\Util\StringUtil;
 
