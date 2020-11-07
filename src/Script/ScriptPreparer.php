@@ -3,12 +3,16 @@
 namespace SqlMigrator\Script;
 
 use Core\Util\StringUtil;
+use SqlMigrator\Finder\File;
 
 class ScriptPreparer
 {
-    public function prepare(string $path): Script
+    public function prepare(File $file): Script
     {
-        $script = new Script($path);
+        $path = $file->getPath();
+        $fileName = $file->getFileName();
+
+        $script = new Script($path, $fileName);
         $this->breakIntoStatements($script);
 
         return $script;

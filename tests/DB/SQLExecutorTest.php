@@ -6,6 +6,7 @@ use PHPUnit\Framework\TestCase;
 use SqlMigrator\DB\ConnectionCreator;
 use SqlMigrator\DB\SQLExecutor;
 use SqlMigrator\Exception\StatementExecutionException;
+use SqlMigrator\Finder\File;
 use SqlMigrator\Script\ScriptPreparer;
 use Tests\CreateFile;
 
@@ -25,6 +26,7 @@ class SQLExecutorTest extends TestCase
 
     public function testShouldExecuteScriptStatements(): void
     {
+        $fileName = 'script.sql';
         $name1 = 'Usuário 100';
         $name2 = 'Usuário 200';
 
@@ -35,7 +37,8 @@ class SQLExecutorTest extends TestCase
 
         $filePath = $this->createFile($content);
         $preparer = new ScriptPreparer();
-        $script = $preparer->prepare($filePath);
+        $file = new File($filePath, $fileName);
+        $script = $preparer->prepare($file);
 
         $creator = new ConnectionCreator();
         $executor = new SQLExecutor($creator);
@@ -56,6 +59,7 @@ class SQLExecutorTest extends TestCase
 
     public function testShouldThrowsExceptionWhenInvalidSqlStatement(): void
     {
+        $fileName = 'script.sql';
         $name1 = 'Usuário 100';
         $name2 = 'Usuário 200';
 
@@ -67,7 +71,8 @@ class SQLExecutorTest extends TestCase
 
         $filePath = $this->createFile($content);
         $preparer = new ScriptPreparer();
-        $script = $preparer->prepare($filePath);
+        $file = new File($filePath, $fileName);
+        $script = $preparer->prepare($file);
         $creator = new ConnectionCreator();
         $executor = new SQLExecutor($creator);
 

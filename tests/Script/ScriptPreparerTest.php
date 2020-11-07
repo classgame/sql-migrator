@@ -3,6 +3,7 @@
 namespace Tests\Script;
 
 use PHPUnit\Framework\TestCase;
+use SqlMigrator\Finder\File;
 use SqlMigrator\Script\ScriptPreparer;
 use SqlMigrator\Script\Statement;
 
@@ -11,8 +12,12 @@ class ScriptPreparerTest extends TestCase
     public function testShouldReturnPreparedScript(): void
     {
         $filePath = $this->createFile();
+        $fileName = 'script.sql';
+
         $preparer = new ScriptPreparer();
-        $script = $preparer->prepare($filePath);
+        $file = new File($filePath, $fileName);
+
+        $script = $preparer->prepare($file);
 
         $this->assertNotNull($script);
     }
@@ -26,8 +31,12 @@ class ScriptPreparerTest extends TestCase
         ";
 
         $filePath = $this->createFile($content);
+        $fileName = 'script.sql';
+
         $preparer = new ScriptPreparer();
-        $script = $preparer->prepare($filePath);
+        $file = new File($filePath, $fileName);
+
+        $script = $preparer->prepare($file);
 
         $this->assertNotNull($script);
 

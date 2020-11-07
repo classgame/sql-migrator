@@ -7,17 +7,19 @@ use SqlMigrator\Exception\InvalidFileException;
 class Script
 {
     private string $path;
+    private string $name;
     private int $numberOfLines;
     private array $statements;
     private Content $content;
 
-    public function __construct(string $path)
+    public function __construct(string $path, string $name)
     {
         if (!is_file($path)) {
             throw new InvalidFileException($path);
         }
 
         $this->path = $path;
+        $this->name = $name;
         $this->numberOfLines = (int)count(file($path));
         $this->content = new Content(file_get_contents($path));
     }
@@ -59,5 +61,10 @@ class Script
     public function getCommands(): array
     {
         return $this->content->getCommands();
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
     }
 }
