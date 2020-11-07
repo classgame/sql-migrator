@@ -3,7 +3,7 @@
 namespace Tests\Script;
 
 use PHPUnit\Framework\TestCase;
-use SqlMigrator\Finder\Finder;
+use SqlMigrator\DirectoryMap\Mapper;
 use SqlMigrator\Script\ScriptSelector;
 
 class ScriptSelectorTest extends TestCase
@@ -12,11 +12,11 @@ class ScriptSelectorTest extends TestCase
     {
         $path = __DIR__ . '/../Finder/migrations';
 
-        $finder = new Finder();
+        $mapper = new Mapper();
         $scriptSelector = new ScriptSelector();
 
-        $dir = $finder->find($path);
-        $scripts = $scriptSelector->selectScripts($dir);
+        $dirMap = $mapper->mapper($path);
+        $scripts = $scriptSelector->selectScripts($dirMap);
 
         $this->assertCount(9, $scripts);
 

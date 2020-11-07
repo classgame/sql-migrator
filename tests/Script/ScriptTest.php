@@ -4,7 +4,7 @@ namespace Tests\Script;
 
 use PHPUnit\Framework\TestCase;
 use SqlMigrator\Exception\InvalidFileException;
-use SqlMigrator\Finder\File;
+use SqlMigrator\DirectoryMap\File;
 use SqlMigrator\Script\Script;
 use SqlMigrator\Script\ScriptPreparer;
 

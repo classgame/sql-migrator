@@ -3,24 +3,24 @@
 namespace Tests\Finder;
 
 use PHPUnit\Framework\TestCase;
-use SqlMigrator\Finder\Directory;
-use SqlMigrator\Finder\Finder;
+use SqlMigrator\DirectoryMap\DirectoryMap;
+use SqlMigrator\DirectoryMap\Mapper;
 
-class FinderTest extends TestCase
+class MapperTest extends TestCase
 {
     public function testShouldFindScriptsInMigrationDirectory(): void
     {
         $migrationPath = __DIR__ . '/migrations';
 
-        $finder = new Finder();
-        $migrations = $finder->find($migrationPath);
+        $mapper = new Mapper();
+        $dirMap = $mapper->mapper($migrationPath);
 
-        $this->assertMigrationDir($migrationPath, $migrations);
+        $this->assertMigrationDir($migrationPath, $dirMap);
     }
 
     private function assertMigrationDir(
         string $migrationPath,
-        Directory $migrations
+        DirectoryMap $migrations
     ): void {
         $this->assertEquals('migrations', $migrations->getDirName());
         $this->assertEquals($migrationPath, $migrations->getPath());
@@ -45,7 +45,7 @@ class FinderTest extends TestCase
         $this->assertV201($v2_0_1, $migrationPath);
     }
 
-    private function assertV1(Directory $dir, string $migrationPath): void
+    private function assertV1(DirectoryMap $dir, string $migrationPath): void
     {
         $data = [
             'expectedDirName' => 'v1',
@@ -59,7 +59,7 @@ class FinderTest extends TestCase
         $this->assertDir($dir, $data);
     }
 
-    private function assertV2(Directory $dir, string $migrationPath): void
+    private function assertV2(DirectoryMap $dir, string $migrationPath): void
     {
         $data = [
             'expectedDirName' => 'v2',
@@ -73,7 +73,7 @@ class FinderTest extends TestCase
         $this->assertDir($dir, $data);
     }
 
-    private function assertV10(Directory $dir, string $migrationPath): void
+    private function assertV10(DirectoryMap $dir, string $migrationPath): void
     {
         $data = [
             'expectedDirName' => 'v1.0',
@@ -87,7 +87,7 @@ class FinderTest extends TestCase
         $this->assertDir($dir, $data);
     }
 
-    private function assertV101(Directory $dir, string $migrationPath): void
+    private function assertV101(DirectoryMap $dir, string $migrationPath): void
     {
         $data = [
             'expectedDirName' => 'v1.0.1',
@@ -101,7 +101,7 @@ class FinderTest extends TestCase
         $this->assertDir($dir, $data);
     }
 
-    private function assertV11(Directory $dir, string $migrationPath): void
+    private function assertV11(DirectoryMap $dir, string $migrationPath): void
     {
         $data = [
             'expectedDirName' => 'v1.1',
@@ -115,7 +115,7 @@ class FinderTest extends TestCase
         $this->assertDir($dir, $data);
     }
 
-    private function assertV20(Directory $dir, string $migrationPath): void
+    private function assertV20(DirectoryMap $dir, string $migrationPath): void
     {
         $data = [
             'expectedDirName' => 'v2.0',
@@ -129,7 +129,7 @@ class FinderTest extends TestCase
         $this->assertDir($dir, $data);
     }
 
-    private function assertV201(Directory $dir, string $migrationPath): void
+    private function assertV201(DirectoryMap $dir, string $migrationPath): void
     {
         $data = [
             'expectedDirName' => 'v2.0.1',
@@ -143,7 +143,7 @@ class FinderTest extends TestCase
         $this->assertDir($dir, $data);
     }
 
-    private function assertDir(Directory $dir, array $data): void
+    private function assertDir(DirectoryMap $dir, array $data): void
     {
         $this->assertEquals($data['expectedDirName'], $dir->getDirName());
         $this->assertEquals($data['expectedPath'], $dir->getPath());

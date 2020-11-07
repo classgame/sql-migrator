@@ -2,8 +2,8 @@
 
 namespace SqlMigrator\Script;
 
-use SqlMigrator\Finder\Directory;
-use SqlMigrator\Finder\File;
+use SqlMigrator\DirectoryMap\DirectoryMap;
+use SqlMigrator\DirectoryMap\File;
 
 class ScriptSelector
 {
@@ -15,13 +15,13 @@ class ScriptSelector
     }
 
     /**
-     * @param Directory $dir
+     * @param DirectoryMap $dirMap
      * @return Script[]
      */
-    public function selectScripts(Directory $dir): array
+    public function selectScripts(DirectoryMap $dirMap): array
     {
-        $files = $dir->getFiles();
-        $subDirs = $dir->getSubDirectories();
+        $files = $dirMap->getFiles();
+        $subDirs = $dirMap->getSubDirectories();
         $scripts = [];
 
         foreach ($files as $file) {

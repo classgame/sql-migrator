@@ -3,7 +3,7 @@
 namespace SqlMigrator\Script;
 
 use Core\Util\StringUtil;
-use SqlMigrator\Finder\File;
+use SqlMigrator\DirectoryMap\File;
 
 class ScriptPreparer
 {

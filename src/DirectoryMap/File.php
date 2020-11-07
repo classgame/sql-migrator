@@ -1,6 +1,6 @@
 <?php
 
-namespace SqlMigrator\Finder;
+namespace SqlMigrator\DirectoryMap;
 
 class File
 {

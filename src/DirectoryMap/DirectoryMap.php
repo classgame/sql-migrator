@@ -1,8 +1,8 @@
 <?php
 
-namespace SqlMigrator\Finder;
+namespace SqlMigrator\DirectoryMap;
 
-class Directory
+class DirectoryMap
 {
     private string $path;
     private string $dirName;
@@ -37,14 +37,14 @@ class Directory
         return $this->files;
     }
 
-    public function addSubDir(Directory $dir): self
+    public function addSubDir(DirectoryMap $dir): self
     {
         $this->subDirectories[] = $dir;
         return $this;
     }
 
     /**
-     * @return Directory[]
+     * @return DirectoryMap[]
      */
     public function getSubDirectories(): array
     {

@@ -3,7 +3,7 @@
 namespace Tests\Script;
 
 use PHPUnit\Framework\TestCase;
-use SqlMigrator\Finder\File;
+use SqlMigrator\DirectoryMap\File;
 use SqlMigrator\Script\ScriptPreparer;
 use SqlMigrator\Script\Statement;
 

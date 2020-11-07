@@ -1,14 +1,14 @@
 <?php
 
-namespace SqlMigrator\Finder;
+namespace SqlMigrator\DirectoryMap;
 
-class Finder
+class Mapper
 {
-    public function find(string $dirPath): Directory
+    public function mapper(string $dirPath): DirectoryMap
     {
         $this->validate($dirPath);
 
-        $dir = new Directory($dirPath);
+        $dirMap = new DirectoryMap($dirPath);
         $items = scandir($dirPath);
 
         foreach ($items as $fileName) {
@@ -23,16 +23,16 @@ class Finder
             }
 
             if (is_dir($path)) {
-                $subDir = $this->find($path);
-                $dir->addSubDir($subDir);
+                $subDir = $this->mapper($path);
+                $dirMap->addSubDir($subDir);
                 continue;
             }
 
             $file = new File($path, $fileName);
-            $dir->addFiles($file);
+            $dirMap->addFiles($file);
         }
 
-        return $dir;
+        return $dirMap;
     }
 
     private function validate(string $dir): void
