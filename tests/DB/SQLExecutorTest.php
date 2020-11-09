@@ -12,8 +12,9 @@ use Tests\CreateFile;
 
 class SQLExecutorTest extends TestCase
 {
-    private $conn;
     use CreateFile;
+
+    private $conn;
 
     protected function setUp(): void
     {

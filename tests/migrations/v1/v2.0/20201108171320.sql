@@ -1,0 +1,1 @@
+insert into address (street, number, complement) values ('Street 1', 100, null);

@@ -6,13 +6,16 @@ use SqlMigrator\Exception\StatementExecutionException;
 use SqlMigrator\Script\Script;
 use SqlMigrator\Script\Statement;
 
-class SQLExecutor
+class SQLExecutor implements IExecutor
 {
+    /**
+     * @var \mysqli
+     */
     private $conn;
 
-    public function __construct(ConnectionCreator $connCreator)
+    public function __construct(ConnectionCreator $creator)
     {
-        $this->conn = $connCreator->create();
+        $this->conn = $creator->create();
     }
 
     public function exec(Script $script): void
