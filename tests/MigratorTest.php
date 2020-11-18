@@ -3,8 +3,8 @@
 namespace Tests;
 
 use PHPUnit\Framework\TestCase;
-use SqlMigrator\DB\ConnectionCreator;
-use SqlMigrator\DB\SQLExecutor;
+use SqlMigrator\DB\MySQLConn;
+use SqlMigrator\DB\MySQLExecutor;
 use SqlMigrator\Migrator;
 
 class MigratorTest extends TestCase
@@ -17,7 +17,7 @@ class MigratorTest extends TestCase
     {
         parent::setUp();
 
-        $creator = new ConnectionCreator();
+        $creator = new MySQLConn();
         $this->conn = $creator->create();
         $this->conn->begin_transaction();
     }
@@ -26,8 +26,8 @@ class MigratorTest extends TestCase
     {
         $migrationsPath = root_path('tests/migrations');
 
-        $creator = new ConnectionCreator();
-        $sqlExecutorMock = new SQLExecutor($creator);
+        $creator = new MySQLConn();
+        $sqlExecutorMock = new MySQLExecutor($creator);
         $migrator = new Migrator($sqlExecutorMock);
         $migrator->migrate($migrationsPath);
     }

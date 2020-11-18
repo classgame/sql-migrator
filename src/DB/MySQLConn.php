@@ -2,7 +2,7 @@
 
 namespace SqlMigrator\DB;
 
-class ConnectionCreator
+class MySQLConn implements IConnection
 {
     /**
      * @var \mysqli
