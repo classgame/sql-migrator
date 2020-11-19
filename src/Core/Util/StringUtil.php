@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\Util;
+namespace SqlMigrator\Core\Util;
 
 class StringUtil
 {

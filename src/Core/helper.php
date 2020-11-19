@@ -14,7 +14,7 @@ if (!function_exists('env')) {
 if (!function_exists('root_path')) {
     function root_path(string $path = ''): string
     {
-        $rootDir = __DIR__ . '/../' . $path;
+        $rootDir = __DIR__ . '/sql-migrator/' . $path;
         return realpath($rootDir);
     }
 }

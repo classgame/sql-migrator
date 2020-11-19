@@ -24,11 +24,10 @@
     },
     "autoload": {
         "psr-4": {
-            "SqlMigrator\\": "src/",
-            "Core\\": "core/"
+            "SqlMigrator\\": "src/"
         },
         "files": [
-            "core/helper.php"
+          "src/Core/helper.php"
         ]
     },
     "autoload-dev": {

@@ -2,7 +2,7 @@
 
 namespace SqlMigrator\Script;
 
-use Core\Util\StringUtil;
+use SqlMigrator\Core\Util\StringUtil;
 
 class Content
 {
