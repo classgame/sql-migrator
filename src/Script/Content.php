@@ -17,7 +17,7 @@ class Content
 
     private function identifyCommands(): array
     {
-        $pattern = '/[a-z][\S\s]*?(?=;)./';
+        $pattern = '/[a-z|A-Z][\S\s]*?(?=;)./';
         $content = $this->occultSemiColon();
         preg_match_all($pattern, $content, $matches);
         return $this->recoverySemiColon($matches[0]);
