@@ -2,6 +2,8 @@
 
 namespace SqlMigrator\DB;
 
+use SQLite3;
+use SqlMigrator\Exception\QueryExecutionException;
 use SqlMigrator\Exception\StatementExecutionException;
 use SqlMigrator\Script\Script;
 use SqlMigrator\Script\Statement;
@@ -9,13 +11,13 @@ use SqlMigrator\Script\Statement;
 class SQLiteExecutor implements IExecutor
 {
     /**
-     * @var \mysqli
+     * @var SQLite3
      */
-    private $db;
+    private static $db;
 
-    public function __construct(SQLiteConn $creator)
+    public function __construct()
     {
-        $this->db = $creator->create();
+        $this->initConnection();
     }
 
     public function exec(Script $script): void
@@ -34,13 +36,34 @@ class SQLiteExecutor implements IExecutor
         $sql = $statement->getCommand();
 
         try {
-            $this->db->exec($sql);
+            self::$db->exec($sql);
         } catch (\Exception $e) {
             throw new StatementExecutionException(
                 $statement,
                 $scriptPath,
                 $e->getMessage()
             );
+        }
+    }
+
+    public function execQuery(
+        string $query
+    ): array {
+        try {
+            $r = self::$db->query($query);
+            return $r->fetchArray(SQLITE3_ASSOC);
+        } catch (\Exception $e) {
+            throw new QueryExecutionException(
+                $query,
+                $e->getMessage()
+            );
+        }
+    }
+
+    public function initConnection(): void
+    {
+        if (!self::$db) {
+            self::$db = new SQLite3(':memory:');
         }
     }
 }

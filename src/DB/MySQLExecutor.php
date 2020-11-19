@@ -8,14 +8,11 @@ use SqlMigrator\Script\Statement;
 
 class MySQLExecutor implements IExecutor
 {
-    /**
-     * @var \mysqli
-     */
-    private $conn;
+    private static \mysqli $conn;
 
-    public function __construct(MySQLConn $creator)
+    public function __construct()
     {
-        $this->conn = $creator->create();
+        $this->initConnection();
     }
 
     public function exec(Script $script): void
@@ -32,13 +29,13 @@ class MySQLExecutor implements IExecutor
         string $scriptPath
     ): void {
         $sql = $statement->getCommand();
-        $prepare = $this->conn->prepare($sql);
+        $prepare = self::$conn->prepare($sql);
 
         if (!$prepare) {
             throw new StatementExecutionException(
                 $statement,
                 $scriptPath,
-                mysqli_error($this->conn)
+                mysqli_error(self::$conn)
             );
         }
 
@@ -48,7 +45,24 @@ class MySQLExecutor implements IExecutor
             throw new StatementExecutionException(
                 $statement,
                 $scriptPath,
-                mysqli_error($this->conn)
+                mysqli_error(self::$conn)
+            );
+        }
+    }
+
+    public function initConnection(): void
+    {
+        if (!self::$conn) {
+            $host = env('DB_HOST');
+            $username = env('DB_USERNAME');
+            $password = env('DB_PASSWORD');
+            $database = env('DB_DATABASE');
+
+            self::$conn = mysqli_connect(
+                $host,
+                $username,
+                $password,
+                $database
             );
         }
     }
