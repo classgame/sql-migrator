@@ -7,7 +7,7 @@ use SqlMigrator\DB\MySQLConn;
 use SqlMigrator\DB\SQLiteConn;
 use SqlMigrator\DB\SQLiteExecutor;
 use SqlMigrator\Exception\StatementExecutionException;
-use SqlMigrator\DirectoryMap\File;
+use SqlMigrator\DirectoryMap\MappedFile;
 use SqlMigrator\Script\ScriptPreparer;
 use Tests\CreateFile;
 
@@ -43,7 +43,7 @@ class SQLExecutorTest extends TestCase
 
         $filePath = $this->createFile($content);
         $preparer = new ScriptPreparer();
-        $file = new File($filePath, $fileName);
+        $file = new MappedFile($filePath, $fileName);
         $script = $preparer->prepare($file);
 
         $this->sqlExecutor->exec($script);
@@ -70,7 +70,7 @@ class SQLExecutorTest extends TestCase
 
         $filePath = $this->createFile($content);
         $preparer = new ScriptPreparer();
-        $file = new File($filePath, $fileName);
+        $file = new MappedFile($filePath, $fileName);
         $script = $preparer->prepare($file);
 
         $this->expectException(StatementExecutionException::class);

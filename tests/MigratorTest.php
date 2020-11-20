@@ -4,46 +4,29 @@ namespace Tests;
 
 use PHPUnit\Framework\TestCase;
 use SqlMigrator\DB\MySQLConn;
-use SqlMigrator\DB\MySQLExecutor;
+use SqlMigrator\DB\SQLiteExecutor;
 use SqlMigrator\Migrator;
+use Tests\DB\MigrationRepositoryStub;
 
 class MigratorTest extends TestCase
 {
     use CreateFile;
 
-    private $conn;
+    private Migrator $migrator;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $creator = new MySQLConn();
-        $this->conn = $creator->create();
-        $this->conn->begin_transaction();
+        $repository = new MigrationRepositoryStub();
+        $executor = new SQLiteExecutor();
+        $this->migrator = new Migrator($executor, $repository);
     }
 
     public function testShouldExecuteAllScripts(): void
     {
         $migrationsPath = root_path('tests/migrations');
-
-        $creator = new MySQLConn();
-        $sqlExecutorMock = new MySQLExecutor($creator);
-        $migrator = new Migrator($sqlExecutorMock);
-        $migrator->migrate($migrationsPath);
-    }
-
-    private function getCustomers(): array
-    {
-        $query = "select * from customer";
-        $result = $this->conn->query($query);
-
-        return $result->fetch_all();
-    }
-
-    protected function tearDown(): void
-    {
-        parent::tearDown();
-        $this->conn->rollback();
-        $this->conn->close();
+        $this->migrator->migrate($migrationsPath);
+        dd('test');
     }
 }

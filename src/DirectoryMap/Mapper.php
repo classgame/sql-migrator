@@ -4,12 +4,15 @@ namespace SqlMigrator\DirectoryMap;
 
 class Mapper
 {
-    public function mapper(string $dirPath): DirectoryMap
-    {
+    public function mapper(
+        string $dirPath,
+        ?string $migrationDir = null
+    ): MappedDir {
+        $migrationDir = $migrationDir ?: $dirPath;
         $this->validate($dirPath);
-
-        $dirMap = new DirectoryMap($dirPath);
+        $dirMap = new MappedDir($dirPath, $migrationDir);
         $items = scandir($dirPath);
+        $relativePathDir = $dirMap->getRelativePath();
 
         foreach ($items as $fileName) {
             $path = realpath($dirPath . DIRECTORY_SEPARATOR . $fileName);
@@ -23,12 +26,12 @@ class Mapper
             }
 
             if (is_dir($path)) {
-                $subDir = $this->mapper($path);
+                $subDir = $this->mapper($path, $migrationDir);
                 $dirMap->addSubDir($subDir);
                 continue;
             }
 
-            $file = new File($path, $fileName);
+            $file = new MappedFile($path, $relativePathDir, $fileName);
             $dirMap->addFiles($file);
         }
 

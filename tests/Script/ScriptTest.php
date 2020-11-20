@@ -4,7 +4,7 @@ namespace Tests\Script;
 
 use PHPUnit\Framework\TestCase;
 use SqlMigrator\Exception\InvalidFileException;
-use SqlMigrator\DirectoryMap\File;
+use SqlMigrator\DirectoryMap\MappedFile;
 use SqlMigrator\Script\Script;
 use SqlMigrator\Script\ScriptPreparer;
 
@@ -26,7 +26,7 @@ class ScriptTest extends TestCase
         $fileName = 'script.sql';
 
         $preparer = new ScriptPreparer();
-        $file = new File($filePath, $fileName);
+        $file = new MappedFile($filePath, $fileName);
 
         $this->expectException(InvalidFileException::class);
         $this->expectExceptionMessage("'invalid_file' is not a valid file");

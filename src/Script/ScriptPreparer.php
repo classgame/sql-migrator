@@ -3,11 +3,11 @@
 namespace SqlMigrator\Script;
 
 use SqlMigrator\Core\Util\StringUtil;
-use SqlMigrator\DirectoryMap\File;
+use SqlMigrator\DirectoryMap\MappedFile;
 
 class ScriptPreparer
 {
-    public function prepare(File $file): Script
+    public function prepare(MappedFile $file): Script
     {
         $path = $file->getPath();
         $fileName = $file->getFileName();

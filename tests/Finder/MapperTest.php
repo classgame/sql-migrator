@@ -3,7 +3,7 @@
 namespace Tests\Finder;
 
 use PHPUnit\Framework\TestCase;
-use SqlMigrator\DirectoryMap\DirectoryMap;
+use SqlMigrator\DirectoryMap\MappedDir;
 use SqlMigrator\DirectoryMap\Mapper;
 
 class MapperTest extends TestCase
@@ -20,7 +20,7 @@ class MapperTest extends TestCase
 
     private function assertMigrationDir(
         string $migrationPath,
-        DirectoryMap $migrations
+        MappedDir $migrations
     ): void {
         $this->assertEquals('migrations', $migrations->getDirName());
         $this->assertEquals($migrationPath, $migrations->getPath());
@@ -45,7 +45,7 @@ class MapperTest extends TestCase
         $this->assertV201($v2_0_1, $migrationPath);
     }
 
-    private function assertV1(DirectoryMap $dir, string $migrationPath): void
+    private function assertV1(MappedDir $dir, string $migrationPath): void
     {
         $data = [
             'expectedDirName' => 'v1',
@@ -59,7 +59,7 @@ class MapperTest extends TestCase
         $this->assertDir($dir, $data);
     }
 
-    private function assertV2(DirectoryMap $dir, string $migrationPath): void
+    private function assertV2(MappedDir $dir, string $migrationPath): void
     {
         $data = [
             'expectedDirName' => 'v2',
@@ -73,7 +73,7 @@ class MapperTest extends TestCase
         $this->assertDir($dir, $data);
     }
 
-    private function assertV10(DirectoryMap $dir, string $migrationPath): void
+    private function assertV10(MappedDir $dir, string $migrationPath): void
     {
         $data = [
             'expectedDirName' => 'v1.0',
@@ -87,7 +87,7 @@ class MapperTest extends TestCase
         $this->assertDir($dir, $data);
     }
 
-    private function assertV101(DirectoryMap $dir, string $migrationPath): void
+    private function assertV101(MappedDir $dir, string $migrationPath): void
     {
         $data = [
             'expectedDirName' => 'v1.0.1',
@@ -101,7 +101,7 @@ class MapperTest extends TestCase
         $this->assertDir($dir, $data);
     }
 
-    private function assertV11(DirectoryMap $dir, string $migrationPath): void
+    private function assertV11(MappedDir $dir, string $migrationPath): void
     {
         $data = [
             'expectedDirName' => 'v1.1',
@@ -115,7 +115,7 @@ class MapperTest extends TestCase
         $this->assertDir($dir, $data);
     }
 
-    private function assertV20(DirectoryMap $dir, string $migrationPath): void
+    private function assertV20(MappedDir $dir, string $migrationPath): void
     {
         $data = [
             'expectedDirName' => 'v2.0',
@@ -129,7 +129,7 @@ class MapperTest extends TestCase
         $this->assertDir($dir, $data);
     }
 
-    private function assertV201(DirectoryMap $dir, string $migrationPath): void
+    private function assertV201(MappedDir $dir, string $migrationPath): void
     {
         $data = [
             'expectedDirName' => 'v2.0.1',
@@ -143,7 +143,7 @@ class MapperTest extends TestCase
         $this->assertDir($dir, $data);
     }
 
-    private function assertDir(DirectoryMap $dir, array $data): void
+    private function assertDir(MappedDir $dir, array $data): void
     {
         $this->assertEquals($data['expectedDirName'], $dir->getDirName());
         $this->assertEquals($data['expectedPath'], $dir->getPath());

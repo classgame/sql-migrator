@@ -3,7 +3,7 @@
 namespace Tests\Script;
 
 use PHPUnit\Framework\TestCase;
-use SqlMigrator\DirectoryMap\File;
+use SqlMigrator\DirectoryMap\MappedFile;
 use SqlMigrator\Script\ScriptPreparer;
 use SqlMigrator\Script\Statement;
 
@@ -15,7 +15,7 @@ class ScriptPreparerTest extends TestCase
         $fileName = 'script.sql';
 
         $preparer = new ScriptPreparer();
-        $file = new File($filePath, $fileName);
+        $file = new MappedFile($filePath, $fileName);
 
         $script = $preparer->prepare($file);
 
@@ -34,7 +34,7 @@ class ScriptPreparerTest extends TestCase
         $fileName = 'script.sql';
 
         $preparer = new ScriptPreparer();
-        $file = new File($filePath, $fileName);
+        $file = new MappedFile($filePath, $fileName);
 
         $script = $preparer->prepare($file);
 
