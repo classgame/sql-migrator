@@ -10,10 +10,7 @@ use SqlMigrator\Script\Statement;
 
 class SQLiteExecutor implements IExecutor
 {
-    /**
-     * @var SQLite3
-     */
-    private static $db;
+    private SQLite3 $db;
 
     public function __construct()
     {
@@ -36,7 +33,7 @@ class SQLiteExecutor implements IExecutor
         $sql = $statement->getCommand();
 
         try {
-            self::$db->exec($sql);
+            $this->db->exec($sql);
         } catch (\Exception $e) {
             throw new StatementExecutionException(
                 $statement,
@@ -50,7 +47,7 @@ class SQLiteExecutor implements IExecutor
         string $query
     ): array {
         try {
-            $r = self::$db->query($query);
+            $r = $this->db->query($query);
             return $r->fetchArray(SQLITE3_ASSOC);
         } catch (\Exception $e) {
             throw new QueryExecutionException(
@@ -62,8 +59,6 @@ class SQLiteExecutor implements IExecutor
 
     public function initConnection(): void
     {
-        if (!self::$db) {
-            self::$db = new SQLite3(':memory:');
-        }
+        $this->db = new SQLite3(':memory:');
     }
 }

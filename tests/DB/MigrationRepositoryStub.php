@@ -14,9 +14,12 @@ class MigrationRepositoryStub implements IMigrationRepository
         $this->migrations[] = $data;
     }
 
-    public function getExecutedMigrations(): array
+    public function getExecutedList(): array
     {
-        return $this->migrations;
+        return array_map(
+            fn (array $item) => $item['relative_path'],
+            $this->migrations
+        );
     }
 
     public function saveExecHistoric(array $data): void

@@ -101,30 +101,39 @@ class MappedDir
         return $this->migrationPath;
     }
 
-    public function getFileList(): array
+    public function getFileList(array $executedList = []): array
     {
         $list = [];
 
         foreach ($this->files as $file) {
-            $list[] = $file->getRelativePath();
+            if ($this->alreadyExecuted($file)) {
+                continue;
+            }
+
+            $list[] = $file;
         }
 
         foreach ($this->subDirectories as $subDirectory) {
-            $this->merge($list, $subDirectory->getFileList());
+            arr_merge($list, $subDirectory->getFileList($executedList));
         }
 
         return $list;
     }
 
-    private function merge(array &$source, array $add): void
-    {
-        foreach ($add as $item) {
-            $source[] = $item;
-        }
+    private function alreadyExecuted(
+        MappedFile $file,
+        array $executedList = []
+    ): bool {
+        $relativePath = $file->getRelativePath();
+        return in_array($relativePath, $executedList, true);
     }
 
-    public function getPendingScripts(array $executedList = []): array
+    /**
+     * @param array $executedList
+     * @return MappedFile[]
+     */
+    public function getPendingList(array $executedList = []): array
     {
-        return array_diff($this->getFileList(), $executedList);
+        return $this->getFileList($executedList);
     }
 }

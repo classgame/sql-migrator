@@ -16,7 +16,7 @@ class ScriptSelectorTest extends TestCase
         $scriptSelector = new ScriptSelector();
 
         $dirMap = $mapper->mapper($path);
-        $scripts = $scriptSelector->selectScripts($dirMap);
+        $scripts = $scriptSelector->resolveScripts($dirMap);
 
         $this->assertCount(9, $scripts);
 

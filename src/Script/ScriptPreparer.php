@@ -10,9 +10,10 @@ class ScriptPreparer
     public function prepare(MappedFile $file): Script
     {
         $path = $file->getPath();
+        $relativePath = $file->getRelativePath();
         $fileName = $file->getFileName();
 
-        $script = new Script($path, $fileName);
+        $script = new Script($path, $relativePath, $fileName);
         $this->breakIntoStatements($script);
 
         return $script;
