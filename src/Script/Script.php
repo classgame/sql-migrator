@@ -50,11 +50,6 @@ class Script
         return $this->path;
     }
 
-    public function getLineQuantity(): int
-    {
-        return $this->numberOfLines;
-    }
-
     /**
      * @return Statement[]
      */

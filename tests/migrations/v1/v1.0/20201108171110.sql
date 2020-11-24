@@ -1,6 +1,6 @@
-create table if not exists customer
-(
-    id   INT          NOT NULL AUTO_INCREMENT,
-    name varchar(200) NOT NULL,
-    primary key (id)
+CREATE TABLE user (
+    id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL
 );
+
+insert into user (id, name) values (null, 'user 1');

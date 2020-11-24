@@ -43,7 +43,7 @@ class SQLExecutorTest extends TestCase
 
         $filePath = $this->createFile($content);
         $preparer = new ScriptPreparer();
-        $file = new MappedFile($filePath, $fileName);
+        $file = new MappedFile($filePath, $filePath, $fileName);
         $script = $preparer->prepare($file);
 
         $this->sqlExecutor->exec($script);
@@ -70,7 +70,7 @@ class SQLExecutorTest extends TestCase
 
         $filePath = $this->createFile($content);
         $preparer = new ScriptPreparer();
-        $file = new MappedFile($filePath, $fileName);
+        $file = new MappedFile($filePath, $filePath, $fileName);
         $script = $preparer->prepare($file);
 
         $this->expectException(StatementExecutionException::class);

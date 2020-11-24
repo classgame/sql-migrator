@@ -106,7 +106,7 @@ class MappedDir
         $list = [];
 
         foreach ($this->files as $file) {
-            if ($this->alreadyExecuted($file)) {
+            if ($this->alreadyExecuted($file, $executedList)) {
                 continue;
             }
 

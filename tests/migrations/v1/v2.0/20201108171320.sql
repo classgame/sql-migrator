@@ -1,1 +1,1 @@
-insert into address (street, number, complement) values ('Street 1', 100, null);
+insert into user (id, name) values (null, 'user 7');

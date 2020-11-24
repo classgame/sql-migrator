@@ -48,7 +48,14 @@ class SQLiteExecutor implements IExecutor
     ): array {
         try {
             $r = $this->db->query($query);
-            return $r->fetchArray(SQLITE3_ASSOC);
+            $data = [];
+
+            while ($row = $r->fetchArray(SQLITE3_ASSOC))
+            {
+                $data[] = $row;
+            }
+
+            return $data;
         } catch (\Exception $e) {
             throw new QueryExecutionException(
                 $query,

@@ -41,29 +41,18 @@ class Migrator
     private function exec(Script $script): void
     {
         $this->saveMigration($script);
-        // TODO: Save historic
         $this->executor->exec($script);
     }
 
-    private function saveMigration(Script $script)
+    private function saveMigration(Script $script): void
     {
         $data = [
             'file_name' => $script->getName(),
             'file_path' => $script->getRelativePath(),
             'version_id' => $script->getVersion(),
+            'number_of_lines' => $script->getNumberOfLines(),
+            'number_of_commands' => count($script->getCommands()),
         ];
-
-        dd($data);
-
-//        - id
-//        - file_name
-//        - file_path
-//        - version_id
-//        - status_id
-//        - number_of_lines
-//        - number_of_commands
-//        - created_at
-//        - updated_at
 
         $this->repository->save($data);
     }

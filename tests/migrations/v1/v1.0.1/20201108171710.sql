@@ -1,0 +1,1 @@
+insert into user (id, name) values (null, 'user 3');
